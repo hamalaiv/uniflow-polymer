@@ -29,7 +29,7 @@
       }
 
       [todo.actions.ADD_TODO](details) {
-        this.push('state.todoList', {
+        this.unshift('state.todoList', {
           text: details.text,
           completed: false
         });
