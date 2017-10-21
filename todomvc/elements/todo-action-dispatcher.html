@@ -23,6 +23,19 @@
             todoItem.completed ? 0 : 1), 0));
       }
 
+      _moveTodo(currentIndex, direction){
+        let nextIndex = currentIndex+direction;
+        if(nextIndex < 0 || nextIndex >= this.get('state.todoList').length){
+          return;
+        }
+
+        // TODO: does not work correctly when filter is on
+        let toMove = this.get('state.todoList')[currentIndex];
+        let toReplace = this.get('state.todoList')[nextIndex];
+        this.set(['state.todoList', nextIndex], toMove);
+        this.set(['state.todoList', currentIndex], toReplace);
+      }
+
       [todo.actions.INIT_APPLICATION](details) {
         this._updateAllCompleted();
         this._updateActiveCount();
@@ -44,31 +57,12 @@
 
       [todo.actions.MOVE_TODO_UP](details){
         let index = this.get('state.todoList').indexOf(details.model);
-        
-        if(index <= 0){
-          return;
-        }
-
-        // TODO: does not work correctly when filter is on
-        let toMove = this.get('state.todoList')[index];
-        let upper = this.get('state.todoList')[index-1];
-        this.set(['state.todoList', index-1], toMove);
-        this.set(['state.todoList', index], upper);
+        this._moveTodo(index, -1);
       }
 
       [todo.actions.MOVE_TODO_DOWN](details){
-        let len = this.get('state.todoList').length;
         let index = this.get('state.todoList').indexOf(details.model);
-        
-        if(index+1 >= len){
-          return;
-        }
-
-        // TODO: does not work correctly when filter is on
-        let toMove = this.get('state.todoList')[index];
-        let lower = this.get('state.todoList')[index+1];
-        this.set(['state.todoList', index+1], toMove);
-        this.set(['state.todoList', index], lower);
+        this._moveTodo(index, 1);
       }
 
       [todo.actions.REMOVE_TODO](details) {
