@@ -68,11 +68,10 @@
         text-decoration: line-through;
       }
 
-      li .destroy {
+      li .btn {
         display: none;
         position: absolute;
         top: 0;
-        right: 10px;
         bottom: 0;
         width: 40px;
         height: 40px;
@@ -83,7 +82,7 @@
         transition: color 0.2s ease-out;
       }
 
-      li .destroy:hover {
+      li .btn:hover {
         color: #af5b5e;
       }
 
@@ -91,8 +90,22 @@
         content: '×';
       }
 
-      li:hover .destroy {
+      li:hover .btn {
         display: block;
+      }
+
+      li .move-up {
+        right: 110px;
+        font-size: 18px;
+      }
+
+      li .move-down {
+        right: 60px;
+        font-size: 18px;
+      }
+
+      li .destroy {
+        right: 10px;
       }
 
       li[editing]:last-child {
@@ -112,7 +125,9 @@
       <div class="view">
         <input class="toggle" type="checkbox" checked="[[model.completed]]" on-change="onCompletedChange">
         <label on-dblclick="onViewDblClick">[[model.text]]</label>
-        <button class="destroy" on-tap="onDestroyTap"></button>
+        <button class="btn move-up" on-tap="onMoveUpTap">Up</button>
+        <button class="btn move-down" on-tap="onMoveDownTap">Down</button>
+        <button class="btn destroy" on-tap="onDestroyTap"></button>
       </div>
       <input id="text-input" class="edit" hidden="[[!isEditing]]" on-blur="onInputBlur" on-keydown="onInputKeyDown">
     </li>
@@ -152,6 +167,20 @@
 
       onDestroyTap(e) {
         this._removeTodo();
+      }
+
+      onMoveUpTap(e){
+        this.emitAction({
+          type: todo.actions.MOVE_TODO_UP,
+          model: this.model
+        });
+      }
+
+      onMoveDownTap(e){
+        this.emitAction({
+          type: todo.actions.MOVE_TODO_DOWN,
+          model: this.model
+        });
       }
 
       onViewDblClick(e) {
