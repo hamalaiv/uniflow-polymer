@@ -1,5 +1,6 @@
 <link rel="import" href="../../../polymer/polymer-element.html">
 <link rel="import" href="../../list-view.html">
+<link rel="import" href="../../../sortable-list/sortable-list.html">
 
 <link rel="import" href="todo-item.html">
 
@@ -10,6 +11,10 @@
     <style include="todo-styles">
       :host {
         display: block;
+      }
+
+      sortable-list{
+        width:100%;
       }
 
       todo-item {
@@ -24,17 +29,25 @@
     <section class="main">
       <input id="ta" class="toggle-all" type="checkbox" checked="[[state.allCompleted]]" on-change="onAllCompletedChange">
       <label for="ta">Mark all as complete</label>
-      <ul class="todo-list">
+      <sortable-list id="sortable_list" sortable=".item" on-sort-finish="onSortFinished">
         <template is="dom-repeat" id="list-template" items="[[list]]" as="todoItem" filter="[[filterList(filterBy)]]" observe="completed">
-          <todo-item model="[[todoItem]]"></todo-item>
+          <todo-item class="item" model="[[todoItem]]"></todo-item>
         </template>
-      </ul>
+      </sortable-list>
     </section>
   </template>
   <script>
     class TodoItems extends UniFlow.ListView(UniFlow.StateAware(Polymer.Element)) {
       static get is() {
         return 'todo-items';
+      }
+
+      onSortFinished(){
+        let items = this.$.sortable_list.items;
+        this.emitAction({
+          type: todo.actions.SET_TODOS,
+          items: items
+        });
       }
 
       filterList(filterBy) {

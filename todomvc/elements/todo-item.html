@@ -11,28 +11,28 @@
         display: block;
       }
 
-      li {
+      .list-item {
         position: relative;
         font-size: 24px;
       }
 
-      li[editing] {
+      .list-item[editing] {
         border-bottom: none;
         padding: 0;
       }
 
-      li[editing] .edit {
+      .list-item[editing] .edit {
         display: block;
         width: 506px;
         padding: 12px 16px;
         margin: 0 0 0 43px;
       }
 
-      li[editing] .view {
+      .list-item[editing] .view {
         display: none;
       }
 
-      li .toggle {
+      .list-item .toggle {
         text-align: center;
         width: 40px;
         /* auto, since non-WebKit browsers doesn't support input styling */
@@ -46,15 +46,15 @@
         appearance: none;
       }
 
-      li .toggle:after {
+      .list-item .toggle:after {
         content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="-10 -18 100 135"><circle cx="50" cy="50" r="50" fill="none" stroke="#ededed" stroke-width="3"/></svg>');
       }
 
-      li .toggle:checked:after {
+      .list-item .toggle:checked:after {
         content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="-10 -18 100 135"><circle cx="50" cy="50" r="50" fill="none" stroke="#bddad5" stroke-width="3"/><path fill="#5dc2af" d="M72 25L42 71 27 56l-4 4 20 20 34-52z"/></svg>');
       }
 
-      li label {
+      .list-item label {
         word-break: break-all;
         padding: 15px 60px 15px 15px;
         margin-left: 45px;
@@ -63,12 +63,12 @@
         transition: color 0.4s;
       }
 
-      li[completed] label {
+      .list-item[completed] label {
         color: #d9d9d9;
         text-decoration: line-through;
       }
 
-      li .destroy {
+      .list-item .destroy {
         display: none;
         position: absolute;
         top: 0;
@@ -83,39 +83,39 @@
         transition: color 0.2s ease-out;
       }
 
-      li .destroy:hover {
+      .list-item .destroy:hover {
         color: #af5b5e;
       }
 
-      li .destroy:after {
+      .list-item .destroy:after {
         content: '×';
       }
 
-      li:hover .destroy {
+      .list-item:hover .destroy {
         display: block;
       }
 
-      li[editing]:last-child {
+      .list-item[editing]:last-child {
         margin-bottom: -1px;
       }
 
-      li .toggle:after {
+      .list-item .toggle:after {
         content: url('../resources/unchecked.svg');
       }
 
-      li .toggle:checked:after {
+      .list-item .toggle:checked:after {
         content: url('../resources/checked.svg');
       }
     </style>
 
-    <li completed$="[[model.completed]]" editing$="[[isEditing]]">
+    <div class="list-item" completed$="[[model.completed]]" editing$="[[isEditing]]">
       <div class="view">
         <input class="toggle" type="checkbox" checked="[[model.completed]]" on-change="onCompletedChange">
         <label on-dblclick="onViewDblClick">[[model.text]]</label>
         <button class="destroy" on-tap="onDestroyTap"></button>
       </div>
       <input id="text-input" class="edit" hidden="[[!isEditing]]" on-blur="onInputBlur" on-keydown="onInputKeyDown">
-    </li>
+    </div>
   </template>
   <script>
     class TodoItem extends UniFlow.ModelView(Polymer.GestureEventListeners(Polymer.Element)) {

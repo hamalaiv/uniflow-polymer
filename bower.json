@@ -19,7 +19,8 @@
     "/test/"
   ],
   "dependencies": {
-    "polymer": "Polymer/polymer#^2.0.0"
+    "polymer": "Polymer/polymer#^2.0.0",
+    "sortable-list": "sharedlabs/sortable-list#^1.0.2"
   },
   "devDependencies": {
     "app-route": "PolymerElements/app-route#^2.0.2",
